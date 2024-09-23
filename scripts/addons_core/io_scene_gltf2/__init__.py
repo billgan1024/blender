@@ -141,15 +141,15 @@ def get_format_items(scene, context):
               'Exports multiple files, with separate JSON, binary and texture data. '
               'Easiest to edit later'))
 
-    if bpy.context.preferences.addons['io_scene_gltf2'].preferences \
-            and "allow_embedded_format" in bpy.context.preferences.addons['io_scene_gltf2'].preferences \
-            and bpy.context.preferences.addons['io_scene_gltf2'].preferences['allow_embedded_format']:
+    # if bpy.context.preferences.addons['io_scene_gltf2'].preferences \
+    #         and "allow_embedded_format" in bpy.context.preferences.addons['io_scene_gltf2'].preferences \
+    #         and bpy.context.preferences.addons['io_scene_gltf2'].preferences['allow_embedded_format']:
         # At initialization, the preferences are not yet loaded
         # The second line check is needed until the PR is merge in Blender, for github CI tests
-        items += (('GLTF_EMBEDDED', 'glTF Embedded (.gltf)',
-                   'Exports a single file, with all data packed in JSON. '
-                   'Less efficient than binary, but easier to edit later'
-                   ),)
+    items = (('GLTF_EMBEDDED', 'glTF Embedded (.gltf)',
+                'Exports a single file, with all data packed in JSON. '
+                'Less efficient than binary, but easier to edit later'
+                ),) + items
 
     return items
 
@@ -475,7 +475,7 @@ class ExportGLTF2_Base(ConvertGLTF2_Base):
     export_tangents: BoolProperty(
         name='Tangents',
         description='Export vertex tangents with meshes',
-        default=False
+        default=True
     )
 
     export_materials: EnumProperty(
@@ -621,7 +621,7 @@ class ExportGLTF2_Base(ConvertGLTF2_Base):
     export_yup: BoolProperty(
         name='+Y Up',
         description='Export using glTF convention, +Y up',
-        default=True
+        default=False
     )
 
     export_apply: BoolProperty(
